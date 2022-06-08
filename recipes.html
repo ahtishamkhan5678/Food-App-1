@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Recipes</title>
+		<script
+			src="https://kit.fontawesome.com/3b71de7653.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="/styles/navbar.css" />
+	</head>
+	<body>
+		<div id="navbar"></div>
+		<button id="getRandRecipe">Click here for a random recipe</button>
+		<div id="rand_meal"></div>
+	</body>
+</html>
+
+<script type="module">
+	import navbar from "/components/navbar.js";
+
+	let nav = document.getElementById("navbar");
+
+	nav.innerHTML = navbar();
+
+	let usrName = JSON.parse(localStorage.getItem("username"));
+	if (usrName !== null) {
+		document.getElementById("login").innerHTML = "Hi, " + usrName + "!";
+	}
+
+	document.getElementById("getRandRecipe").addEventListener("click", () => {
+		const randomRes = async () => {
+			let res = await fetch(
+				"https://www.themealdb.com/api/json/v1/1/random.php"
+			);
+
+			let data = await res.json();
+
+			console.log(data.meals);
+			appendData(data.meals);
+		};
+
+		const appendData = (data) => {
+			// document.getElementById("rand-meal").innerHTML = null;
+
+			data.map(({ strMeal, strInstructions, strMealThumb }) => {
+				let box = document.createElement("div");
+				box.style = "margin:auto";
+
+				let title = document.createElement("h3");
+				title.innerText = strMeal;
+				title.style = "margin-bottom:20px";
+
+				let instructions = document.createElement("p");
+				instructions.innerText = "𝙃𝙤𝙬 𝙩𝙤 𝙘𝙤𝙤𝙠: " + strInstructions;
+
+				let photo = document.createElement("img");
+				photo.src = strMealThumb;
+				photo.style = "height:300px;width:auto";
+
+				box.append(photo, title, instructions);
+
+				document.getElementById("rand_meal").append(box);
+			});
+		};
+
+		randomRes();
+	});
+</script>

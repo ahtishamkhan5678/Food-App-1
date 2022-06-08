@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>SignUp</title>
+		<script
+			src="https://kit.fontawesome.com/3b71de7653.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="/styles/navbar.css" />
+	</head>
+	<body>
+		<div id="navbar"></div>
+		<div id="form_div">
+			<h4>Fill up sign up details</h4>
+			<input type="text" id="name" placeholder="Enter your name" />
+			<input type="number" id="mobile" placeholder="Enter your mobile number" />
+			<input type="email" id="email" placeholder="Enter your email" />
+			<input type="password" id="pass" placeholder="Enter your password" />
+			<button id="submit">Submit</button>
+		</div>
+	</body>
+</html>
+
+<script type="module">
+	import navbar from "/components/navbar.js";
+
+	let nav = document.getElementById("navbar");
+
+	nav.innerHTML = navbar();
+
+	let details = JSON.parse(localStorage.getItem("userDetails")) || [];
+
+	let obj = {};
+	document.getElementById("submit").addEventListener("click", () => {
+		let Email = document.getElementById("email").value;
+		let Pass = document.getElementById("pass").value;
+		let Name = document.getElementById("name").value;
+
+		obj.mail = Email;
+		obj.pwd = Pass;
+		obj.name = Name;
+
+		details.push(obj);
+
+		localStorage.setItem("userDetails", JSON.stringify(details));
+	});
+</script>

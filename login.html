@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login</title>
+		<script
+			src="https://kit.fontawesome.com/3b71de7653.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="/styles/navbar.css" />
+	</head>
+	<body>
+		<div id="navbar"></div>
+		<div id="form_div">
+			<h4>Fill up login details</h4>
+			<input type="email" id="email" placeholder="Enter your email" />
+			<input type="password" id="pass" placeholder="Enter your password" />
+			<button id="submit">Submit</button>
+		</div>
+	</body>
+</html>
+
+<script type="module">
+	import navbar from "/components/navbar.js";
+
+	let nav = document.getElementById("navbar");
+
+	nav.innerHTML = navbar();
+
+	let details = JSON.parse(localStorage.getItem("userDetails"));
+
+	document.getElementById("submit").addEventListener("click", () => {
+		let Email = document.getElementById("email").value;
+		let Pass = document.getElementById("pass").value;
+
+		for (let i = 0; i < details.length; i++) {
+			if (details[i].mail == Email && details[i].pwd == Pass) {
+				let Name = details[i].name;
+				localStorage.setItem("username", JSON.stringify(Name));
+				alert("Login successful");
+				window.location.href = "index.html";
+				break;
+			} 
+			else if (i == details.length - 1) alert("Invalid email or password!");
+		}
+	});
+</script>
